@@ -12,6 +12,25 @@ return {
   -- add gruvbox
   { "ellisonleao/gruvbox.nvim" },
 
+  -- Comment Plugin
+  {
+    "numToStr/Comment.nvim",
+    config = function()
+      require("Comment").setup()
+    end,
+    lazy = false,
+  },
+
+  {
+    "EmranMR/tree-sitter-blade",
+    opts = {
+      ensure_installed = "blade",
+      highlight = {
+        enable = true,
+      },
+    },
+  },
+
   -- Configure LazyVim to load gruvbox
   {
     "LazyVim/LazyVim",
