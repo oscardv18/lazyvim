@@ -21,16 +21,6 @@ return {
     lazy = false,
   },
 
-  {
-    "EmranMR/tree-sitter-blade",
-    opts = {
-      ensure_installed = "blade",
-      highlight = {
-        enable = true,
-      },
-    },
-  },
-
   -- Configure LazyVim to load gruvbox
   {
     "LazyVim/LazyVim",
@@ -153,6 +143,8 @@ return {
         "typescript",
         "vim",
         "yaml",
+        "php",
+        "angular",
       },
     },
   },
