@@ -1,63 +1,50 @@
+-- add more treesitter parsers
 return {
-  {
-    "nvim-treesitter/nvim-treesitter",
-    opts = function(_, opts)
-      ---@class ParserInfo
-      local parser_configs = require("nvim-treesitter.parsers").get_parser_configs()
-
-      parser_configs.blade = {
-        install_info = {
-          url = "https://github.com/EmranMR/tree-sitter-blade",
-          files = { "src/parser.c" },
-          branch = "main",
-        },
-        filetype = "blade",
-      }
-      vim.filetype.add({
-        pattern = {
-          [".*%.blade%.php"] = "blade",
-        },
-      })
-
-      local bladeGrp
-      vim.api.nvim_create_augroup("BladeFiltypeRelated", { clear = true })
-      vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
-        pattern = "*.blade.php",
-        group = bladeGrp,
-        callback = function()
-          vim.opt.filetype = "blade"
+  "nvim-treesitter/nvim-treesitter",
+  build = function()
+    require("nvim-treesitter.install").update({ with_sync = true })
+  end,
+  dependencies = {
+    {
+      "JoosepAlviste/nvim-ts-context-commentstring",
+      opts = {
+        custom_calculation = function(_, language_tree)
+          if vim.bo.filetype == "blade" and language_tree._lang ~= "javascript" and language_tree._lang ~= "php" then
+            return "{{-- %s --}}"
+          end
         end,
-      })
-
-      vim.treesitter.language.register("blade", "blade")
-      table.insert(opts.ensure_installed, "blade")
-
-      return opts
-    end,
-  },
-
-  {
-    "nvim-treesitter/nvim-treesitter",
-
-    opts = {
-      ensure_installed = {
-        "astro",
-        "cmake",
-        "cpp",
-        "css",
-        "fish",
-        "gitignore",
-        "go",
-        "graphql",
-        "http",
-        "java",
-        "php",
-        "rust",
-        "scss",
-        "sql",
-        "svelte",
-        "blade",
       },
     },
+    "nvim-treesitter/nvim-treesitter-textobjects",
   },
+  opts = {
+    ensure_installed = "all",
+    auto_install = true,
+    highlight = {
+      enable = true,
+    },
+    -- Needed because treesitter highlight turns off autoindent for php files
+    indent = {
+      enable = true,
+    },
+  },
+  config = function(_, opts)
+    ---@class ParserInfo[]
+    local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+    parser_config.blade = {
+      install_info = {
+        url = "https://github.com/EmranMR/tree-sitter-blade",
+        files = {
+          "src/parser.c",
+          -- 'src/scanner.cc',
+        },
+        branch = "main",
+        generate_requires_npm = true,
+        requires_generate_from_grammar = true,
+      },
+      filetype = "blade",
+    }
+
+    require("nvim-treesitter.configs").setup(opts)
+  end,
 }
