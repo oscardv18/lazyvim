@@ -20,3 +20,8 @@ map("n", "<leader>gd", function()
     { cwd = Util.get_root(), esc_esc = false }
   )
 end, { desc = "LazyDocker (root dir)" })
+
+local keymap = vim.keymap.set
+
+keymap("n", "<C-w>c", ":bd<CR>", { desc = "Close buffer" })
+
