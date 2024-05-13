@@ -20,20 +20,28 @@ return {
       -- vim.cmd.colorscheme("sonokai")
     end,
   },
+  -- {
+  --   "olimorris/onedarkpro.nvim",
+  --   priority = 1000, -- ensure it loads first
+  --   opts = {
+  --     options = {
+  --       transparency = true,
+  --     },
+  --   },
+  -- },
   {
-    "olimorris/onedarkpro.nvim",
-    priority = 1000, -- Ensure it loads first
+    "navarasu/onedark.nvim",
+    priority = 1000,
     opts = {
-      options = {
-        transparency = true,
-      },
-    },
+      style = 'darker',
+      transparent = true,
+    }
   },
-
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "onedark_dark",
+      --colorscheme = "onedark_dark",
+      colorscheme = "onedark",
     },
   },
 }
